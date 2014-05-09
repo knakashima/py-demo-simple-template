@@ -1,0 +1,37 @@
+{%- set ifl = interface.name ~ "." ~ interface.unit2.vlanid %}
+
+interfaces {
+    {{ interface.name }} {
+        unit {{ interface.unit2.vlanid }} {
+            description "{{ interface.unit2.description }}";
+            encapsulation vlan-ccc;
+            vlan-id {{ interface.unit2.vlanid }};
+            family ccc {
+                policer {
+                    input {{ interface.unit2.police.limit }};
+                    output {{ interface.unit2.police.limit }};
+                }
+            }
+        }
+    }
+}
+
+protocols {
+    l2circuit {
+        neighbor {{ remote.remote_pe}} {
+            interface {{ ifl }} {
+                virtual-circuit-id {{ remote.vcid }};
+            }
+        }
+    }
+}
+
+firewall {
+    policer {{ interface.unit2.police.limit }} {
+        if-exceeding {
+            bandwidth-limit {{ interface.unit2.police.limit }};
+            burst-size-limit {{ interface.unit2.police.burst }};
+        }
+        then discard;
+    }
+}

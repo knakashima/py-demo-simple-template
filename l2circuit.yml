@@ -1,0 +1,15 @@
+---
+interface:
+    name: ge-0/0/0
+    description: CPE-Z-location
+    unit1:
+      description: OoB-mgmt-x.x.x.x
+    unit2:
+      description: E-LINE-1-Customer-A
+      vlanid: 1024
+      police:
+        limit: 10m
+        burst: 256k
+remote:
+    remote_pe: 10.0.0.2
+    vcid: 1024

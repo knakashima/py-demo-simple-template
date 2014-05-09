@@ -1,0 +1,11 @@
+---
+- name: MEF E-LINE / l2circuit template render
+  hosts: localhost
+  user: root
+  gather_facts: no
+  vars_files:
+    - l2circuit.yml
+
+  tasks:
+    - name: build customer l2circuit.conf
+      template: src=l2circuit.j2 dest=./l2circuit.conf
